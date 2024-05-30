@@ -10,7 +10,7 @@ import CoreData
 
 class ProfileViewModel: ObservableObject {
     let manager = CoreDataManager.instance
-    @AppStorage("isLogin") var isLogin: Bool = false
+   // @AppStorage("isLogin") var isLogin: Bool = false
     @Published var users: [UserEntity] = []
     
     @Published var email = ""
@@ -60,10 +60,6 @@ class ProfileViewModel: ObservableObject {
     }
     
     func signUp() {
-//        guard !email.isEmpty, !password.isEmpty else {
-//            print("No email or password found.")
-//            return
-//        }
         if !emailIsValid(email) {
             alertMessage = "Некорректный адрес электронной почты."
             showingAlert = true
@@ -74,7 +70,7 @@ class ProfileViewModel: ObservableObject {
             return
         } else {
             self.addUser(email: email, password: password)
-            self.isLogin = true
+           // self.isLogin = true
             self.showingAlert = false
             self.alertMessage = ""
             self.email = ""
@@ -85,15 +81,11 @@ class ProfileViewModel: ObservableObject {
     }
     
     func signIn(email: String, password: String, currentUserPassword: String) {
-//        guard !email.isEmpty, !password.isEmpty else {
-//            print("No email or password found.")
-//            return
-//        }
        if currentUserPassword != password {
             alertMessage = "Неверный пароль."
             showingAlert = true
         } else {
-            self.isLogin = true
+           // self.isLogin = true
             self.showingAlert = false
             self.alertMessage = ""
             self.showSignInView = false
@@ -106,12 +98,12 @@ class ProfileViewModel: ObservableObject {
         self.showingAlert = false
         self.email = ""
         self.password = ""
-        self.isLogin = false
+        //self.isLogin = false
         self.showSignInView = true
     }
     
     func signOut() {
-        self.isLogin = false
+        //self.isLogin = false
         self.getUsers()
         self.email = ""
         self.password = ""

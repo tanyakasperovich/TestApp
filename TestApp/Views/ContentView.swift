@@ -17,7 +17,8 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            self.profileViewModel.showSignInView = profileViewModel.isLogin == false
+            self.profileViewModel.showSignInView = true
+           // self.profileViewModel.showSignInView = profileViewModel.isLogin == false
         }
         .fullScreenCover(isPresented: $profileViewModel.showSignInView) {
             NavigationStack {
