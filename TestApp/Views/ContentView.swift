@@ -16,10 +16,10 @@ struct ContentView: View {
                 MainScreen()
             }
         }
-        .onAppear {
-            self.profileViewModel.showSignInView = true
-           // self.profileViewModel.showSignInView = profileViewModel.isLogin == false
-        }
+//        .onAppear {
+//            self.profileViewModel.showSignInView = true
+//           // self.profileViewModel.showSignInView = profileViewModel.isLogin == false
+//        }
         .fullScreenCover(isPresented: $profileViewModel.showSignInView) {
             NavigationStack {
                 if profileViewModel.users.isEmpty {

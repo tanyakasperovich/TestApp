@@ -16,6 +16,7 @@ struct RegistrationScreen: View {
             TextField("Email...", text: $profileViewModel.email)
                 .textContentType(.emailAddress)
                 .keyboardType(.emailAddress)
+                .textCase(.lowercase)
                 .textInputAutocapitalization(.none)
                 .padding()
                 .background(Color.black.opacity(0.05))

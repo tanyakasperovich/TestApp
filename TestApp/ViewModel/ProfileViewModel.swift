@@ -12,11 +12,12 @@ class ProfileViewModel: ObservableObject {
     let manager = CoreDataManager.instance
    // @AppStorage("isLogin") var isLogin: Bool = false
     @Published var users: [UserEntity] = []
+    @Published var authUserEmail = ""
     
     @Published var email = ""
     @Published var password = ""
     
-    @Published var showSignInView: Bool = false
+    @Published var showSignInView: Bool = true
     
     // Alert...
     @Published var showingAlert = false
@@ -44,14 +45,22 @@ class ProfileViewModel: ObservableObject {
     }
     
 //    func deleteUser(indexSet: IndexSet) {
+//        getUsers()
 //        guard let index = indexSet.first else { return }
 //        let entity = users[index]
 //        manager.context.delete(entity)
 //        save()
 //    }
+    
     func deleteUser() {
-        let user = users[0]
-        manager.context.delete(user)
+        getUsers()
+        for user in users {
+            if user.email == authUserEmail {
+                manager.context.delete(user)
+            }
+        }
+       // let user = users[0]
+//        manager.context.delete(user)
         save()
     }
     
@@ -68,8 +77,13 @@ class ProfileViewModel: ObservableObject {
             alertMessage = "Пароль должен содержать не менее 8 символов."
             showingAlert = true
             return
+        } else if !users.filter({$0.email == email}).isEmpty {
+            alertMessage = "Адрес электронной почты уже зарегистрирован."
+            showingAlert = true
+            return
         } else {
             self.addUser(email: email, password: password)
+            self.authUserEmail = email
            // self.isLogin = true
             self.showingAlert = false
             self.alertMessage = ""
@@ -86,6 +100,7 @@ class ProfileViewModel: ObservableObject {
             showingAlert = true
         } else {
            // self.isLogin = true
+            self.authUserEmail = email
             self.showingAlert = false
             self.alertMessage = ""
             self.showSignInView = false
@@ -95,6 +110,7 @@ class ProfileViewModel: ObservableObject {
     func deleteAccount() {
         self.deleteUser()
         self.getUsers()
+        self.authUserEmail = ""
         self.showingAlert = false
         self.email = ""
         self.password = ""
@@ -105,6 +121,7 @@ class ProfileViewModel: ObservableObject {
     func signOut() {
         //self.isLogin = false
         self.getUsers()
+        self.authUserEmail = ""
         self.email = ""
         self.password = ""
         self.showSignInView = true
